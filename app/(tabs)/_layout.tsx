@@ -1,35 +1,67 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarActiveTintColor: '#c9973a',
+        tabBarInactiveTintColor: '#6b6560',
+        tabBarStyle: {
+          backgroundColor: '#ffffff',
+          borderTopColor: '#d8d3cb',
+          borderTopWidth: 0.5,
+        },
+        headerStyle: {
+          backgroundColor: '#c9973a',
+        },
+        headerTintColor: '#0c0b0a',
+        headerTitleStyle: {
+          fontWeight: '600',
+          fontSize: 13,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Noticias con Rocimar Morales',
+          tabBarLabel: 'Inicio',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home-outline" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="guardados"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Mis relatos guardados',
+          tabBarLabel: 'Guardados',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="bookmark-outline" size={size} color={color} />
+          ),
         }}
       />
+      <Tabs.Screen
+        name="perfil"
+        options={{
+          title: 'Mi perfil',
+          tabBarLabel: 'Perfil',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen name="explore" options={{ href: null }} />
     </Tabs>
   );
-}
+}<Tabs.Screen
+  name="imagen"
+  options={{
+    title: 'Generar imagen',
+    tabBarLabel: 'Imagen',
+    tabBarIcon: ({ color, size }) => (
+      <Ionicons name="image-outline" size={size} color={color} />
+    ),
+  }}
+/>
