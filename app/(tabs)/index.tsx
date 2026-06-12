@@ -375,7 +375,9 @@ export default function Feed() {
     </View>
   );
 }
-
+const styles = StyleSheet.create({
+  container:          { flex: 1, backgroundColor: '#0D0A0B' },
+  catsBar:            { backgroundColor: '#7B2D3E', flexGrow: 0 },
 container:          { flex: 1, backgroundColor: '#0D0A0B' },
 catsBar:            { backgroundColor: '#7B2D3E', flexGrow: 0 },
 catBtn:             { paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 2, borderBottomColor: 'transparent' },
