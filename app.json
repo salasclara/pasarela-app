@@ -56,8 +56,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "5c25f45b-b5ff-47f9-a608-4b294371da22"
+        "projectId": "6466e636-aeef-4a47-8ff3-0a6e1d6256b6"
       }
-    }
+    },
+    "owner": "salasclarae"
   }
 }
