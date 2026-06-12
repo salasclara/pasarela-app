@@ -104,12 +104,10 @@ export default function Feed() {
     setPantalla('relato');
     try {
       const instrucciones: Record<string, string> = {
-        const instrucciones: Record<string, string> = {
-  informativo: 'Redacta un artículo editorial de moda y belleza en tono informativo y elegante. Datos precisos, lenguaje sofisticado. Enfocado en tendencias, estilo y talento. Máximo 5 oraciones.',
-  analitico:   'Redacta un artículo editorial analítico sobre moda, belleza o talento. Contextualiza la tendencia, explica su impacto en la industria y en la comunidad latina. Máximo 5 oraciones.',
-  narrativo:   'Redacta un artículo editorial con la voz de Pasarela Studio Internacional. Estilo cercano, inspirador y sofisticado. Dirigido a mujeres latinas apasionadas por la moda y el talento en Dallas, TX. Máximo 5 oraciones.',
+  informativo: 'Redacta un artículo editorial...',
+  analitico:   'Redacta un artículo editorial analítico...',
+  narrativo:   'Redacta un artículo editorial con la voz...',
 };
-      };
       const prompt = `${instrucciones[tono as keyof typeof instrucciones]}\n\nTítulo: ${noticiaSeleccionada.titulo}\nDescripción: ${noticiaSeleccionada.descripcion}\nFuente: ${noticiaSeleccionada.fuente}`;
       const resultado = await llamarClaude(prompt);
       setRelato(resultado);
