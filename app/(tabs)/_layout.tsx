@@ -5,17 +5,17 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#c9973a',
-        tabBarInactiveTintColor: '#6b6560',
+        tabBarActiveTintColor: '#C9A66B',
+        tabBarInactiveTintColor: '#C4826A',
         tabBarStyle: {
-          backgroundColor: '#ffffff',
-          borderTopColor: '#d8d3cb',
+          backgroundColor: '#0D0A0B',
+          borderTopColor: '#7B2D3E55',
           borderTopWidth: 0.5,
         },
         headerStyle: {
-          backgroundColor: '#c9973a',
+          backgroundColor: '#7B2D3E',
         },
-        headerTintColor: '#0c0b0a',
+        headerTintColor: '#E8C5B0',
         headerTitleStyle: {
           fontWeight: '600',
           fontSize: 13,
@@ -25,7 +25,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Noticias con Rocimar Morales',
+          title: 'Pasarela Studio Internacional',
           tabBarLabel: 'Inicio',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
@@ -35,7 +35,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="guardados"
         options={{
-          title: 'Mis relatos guardados',
+          title: 'Mis artículos guardados',
           tabBarLabel: 'Guardados',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="bookmark-outline" size={size} color={color} />
@@ -52,16 +52,17 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="imagen"
+        options={{
+          title: 'Generar imagen',
+          tabBarLabel: 'imagen',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="image-outline" size={size} color={color} />
+          ),
+        }}
+      />
       <Tabs.Screen name="explore" options={{ href: null }} />
     </Tabs>
   );
-}<Tabs.Screen
-  name="imagen"
-  options={{
-    title: 'Generar imagen',
-    tabBarLabel: 'Imagen',
-    tabBarIcon: ({ color, size }) => (
-      <Ionicons name="image-outline" size={size} color={color} />
-    ),
-  }}
-/>
+}

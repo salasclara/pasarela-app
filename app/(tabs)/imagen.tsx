@@ -7,7 +7,7 @@ import { useCallback, useRef, useState } from 'react';
 import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ViewShot from 'react-native-view-shot';
 
-const RocimarImg = require('../../assets/images/rocimar.png');
+const PasarelaImg = require('../../assets/images/rocimar.png');
 
 const FORMATOS = [
   { id: 'story',  label: 'Story',  sub: '9:16', w: 240, h: 426 },
@@ -19,36 +19,35 @@ function TarjetaNoticia({ titulo, scope, imagenUrl, formato }: {
   titulo: string; scope: string; imagenUrl: string; formato: typeof FORMATOS[0]
 }) {
   const { w, h } = formato;
-  const barH = Math.floor(h * 0.28);
   const fontSize = formato.id === 'banner' ? 8 : formato.id === 'story' ? 13 : 11;
   const maxLines = formato.id === 'banner' ? 2 : formato.id === 'story' ? 8 : 5;
 
   return (
-    <View style={{ width: w, height: h, backgroundColor: '#0c0b0a', overflow: 'hidden' }}>
+    <View style={{ width: w, height: h, backgroundColor: '#0D0A0B', overflow: 'hidden' }}>
       <Image
-  source={imagenUrl ? { uri: imagenUrl } : RocimarImg}
-  style={{ position: 'absolute', top: 0, left: 0, width: w, height: h }}
-  resizeMode={imagenUrl ? 'cover' : 'contain'}
-  defaultSource={RocimarImg}
-  onError={() => {}}
-/>
-      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.65)', padding: 8 }}>
-        <Text style={{ fontSize: 7, color: '#c9973a', fontWeight: '500', letterSpacing: 1.5, marginBottom: 3 }}>
-          NOTICIAS CON ROCIMAR MORALES
+        source={imagenUrl ? { uri: imagenUrl } : PasarelaImg}
+        style={{ position: 'absolute', top: 0, left: 0, width: w, height: h }}
+        resizeMode={imagenUrl ? 'cover' : 'contain'}
+        defaultSource={PasarelaImg}
+        onError={() => {}}
+      />
+      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, backgroundColor: 'rgba(13,10,11,0.75)', padding: 8 }}>
+        <Text style={{ fontSize: 7, color: '#C9A66B', fontWeight: '500', letterSpacing: 1.5, marginBottom: 3 }}>
+          PASARELA STUDIO INTERNACIONAL
         </Text>
-        <View style={{ height: 0.5, backgroundColor: '#c9973a', opacity: 0.5, marginBottom: 4 }} />
-        <Text style={{ fontSize: 7, color: '#c9973a', fontWeight: '500', letterSpacing: 1 }}>
+        <View style={{ height: 0.5, backgroundColor: '#C9A66B', opacity: 0.5, marginBottom: 4 }} />
+        <Text style={{ fontSize: 7, color: '#C9A66B', fontWeight: '500', letterSpacing: 1 }}>
           {scope.toUpperCase()}
         </Text>
       </View>
-      <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.75)', padding: 10 }}>
-        <Text style={{ fontSize: fontSize, color: '#fff', fontWeight: '700', lineHeight: fontSize * 1.4, marginBottom: 6 }} numberOfLines={maxLines}>
+      <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(13,10,11,0.85)', padding: 10 }}>
+        <Text style={{ fontSize: fontSize, color: '#E8C5B0', fontWeight: '700', lineHeight: fontSize * 1.4, marginBottom: 6 }} numberOfLines={maxLines}>
           {titulo}
         </Text>
-        <View style={{ height: 1, backgroundColor: '#c9973a', marginBottom: 5 }} />
-        <Text style={{ fontSize: 10, fontWeight: '700', color: '#c9973a' }}>Rocimar Morales</Text>
-        <Text style={{ fontSize: 8, color: 'rgba(255,255,255,0.7)' }}>La voz de la zona petrolera</Text>
-        <Text style={{ fontSize: 7, color: 'rgba(255,255,255,0.5)' }}>@RocimarMorales · #ZonaPetrolera</Text>
+        <View style={{ height: 1, backgroundColor: '#C9A66B', marginBottom: 5 }} />
+        <Text style={{ fontSize: 10, fontWeight: '700', color: '#C9A66B' }}>Pasarela Studio Internacional</Text>
+        <Text style={{ fontSize: 8, color: 'rgba(232,197,176,0.7)' }}>Moda · Belleza · Talento</Text>
+        <Text style={{ fontSize: 7, color: 'rgba(232,197,176,0.5)' }}>@pasarelastudiointernacional · Dallas, TX</Text>
       </View>
     </View>
   );
@@ -152,11 +151,11 @@ export default function Imagen() {
       <Text style={styles.secLabel}>Acciones</Text>
       <View style={styles.accionesGrid}>
         <TouchableOpacity style={styles.accionBtn} onPress={guardarImagen}>
-          <Ionicons name="download-outline" size={18} color="#1a5276" />
+          <Ionicons name="download-outline" size={18} color="#C9A66B" />
           <Text style={styles.accionText}>Guardar en galería</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.accionBtn} onPress={compartirImagen}>
-          <Ionicons name="share-outline" size={18} color="#1a5276" />
+          <Ionicons name="share-outline" size={18} color="#C9A66B" />
           <Text style={styles.accionText}>Compartir</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.accionBtn, { borderColor: '#C13584' }]} onPress={() => compartirEnApp('Instagram')}>
@@ -173,17 +172,17 @@ export default function Imagen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f6f3ee', padding: 12 },
-  secLabel: { fontSize: 10, fontWeight: '500', color: '#6b6560', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 8, marginTop: 4 },
+  container: { flex: 1, backgroundColor: '#0D0A0B', padding: 12 },
+  secLabel: { fontSize: 10, fontWeight: '500', color: '#C4826A', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 8, marginTop: 4 },
   formatoRow: { flexDirection: 'row', gap: 8, marginBottom: 16 },
-  formatoChip: { flex: 1, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: '#d8d3cb', backgroundColor: '#fff', alignItems: 'center' },
-  formatoChipActivo: { backgroundColor: '#c9973a', borderColor: '#c9973a' },
-  formatoLabel: { fontSize: 13, fontWeight: '500', color: '#6b6560' },
-  formatoLabelActivo: { color: '#0c0b0a' },
-  formatoSub: { fontSize: 10, color: '#6b6560', marginTop: 2 },
-  formatoSubActivo: { color: '#0c0b0a' },
-  previewContainer: { alignItems: 'center', marginBottom: 16, backgroundColor: '#fff', borderRadius: 12, padding: 16, borderWidth: 0.5, borderColor: '#d8d3cb' },
+  formatoChip: { flex: 1, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: '#7B2D3E55', backgroundColor: '#1E1519', alignItems: 'center' },
+  formatoChipActivo: { backgroundColor: '#C9A66B', borderColor: '#C9A66B' },
+  formatoLabel: { fontSize: 13, fontWeight: '500', color: '#C4826A' },
+  formatoLabelActivo: { color: '#0D0A0B' },
+  formatoSub: { fontSize: 10, color: '#C4826A', marginTop: 2 },
+  formatoSubActivo: { color: '#0D0A0B' },
+  previewContainer: { alignItems: 'center', marginBottom: 16, backgroundColor: '#1E1519', borderRadius: 12, padding: 16, borderWidth: 0.5, borderColor: '#7B2D3E55' },
   accionesGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 20 },
-  accionBtn: { width: '47%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, padding: 12, borderRadius: 10, borderWidth: 1, borderColor: '#1a5276', backgroundColor: '#fff' },
-  accionText: { fontSize: 12, fontWeight: '500', color: '#1a5276' },
+  accionBtn: { width: '47%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, padding: 12, borderRadius: 10, borderWidth: 1, borderColor: '#C9A66B', backgroundColor: '#1E1519' },
+  accionText: { fontSize: 12, fontWeight: '500', color: '#C9A66B' },
 });
