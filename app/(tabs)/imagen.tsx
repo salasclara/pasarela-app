@@ -7,7 +7,7 @@ import { useCallback, useRef, useState } from 'react';
 import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ViewShot from 'react-native-view-shot';
 
-const PasarelaImg = require('../../assets/images/rocimar.png');
+const PasarelaImg = require('../../assets/images/pasarela.png');
 
 const FORMATOS = [
   { id: 'story',  label: 'Story',  sub: '9:16', w: 240, h: 426 },
