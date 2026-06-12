@@ -1,18 +1,18 @@
 {
   "expo": {
-    "name": "RocimarNoticias",
-    "slug": "RocimarNoticias",
+    "name": "PasarelaStudio",
+    "slug": "PasarelaStudio",
     "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "rocimarnoticias",
+    "scheme": "PasarelaStudio",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "package": "com.rocimarmorales.noticias",
+      "package": "com.pasarelastudio.noticias",
       "versionCode": 2,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
