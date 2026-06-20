@@ -62,6 +62,16 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+  name="materializar"
+  options={{
+    title: 'PASARELA Engine',
+    tabBarLabel: 'Engine',
+    tabBarIcon: ({ color, size }) => (
+      <Ionicons name="sparkles-outline" size={size} color={color} />
+    ),
+  }}
+/>
       <Tabs.Screen name="explore" options={{ href: null }} />
     </Tabs>
   );
