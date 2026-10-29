@@ -60,11 +60,11 @@ function TarjetaNoticia({
   const isBanner = formato.id === 'banner';
   const isStory = formato.id === 'story';
 
-  const logoSize = isStory ? 39 : Math.round(h * 0.18);
+  const logoSize = isStory ? 30 : Math.round(h * 0.18);
   const headerHeight = h * 0.23;
   const catSize = isStory ? 9 : 7;
   const titSize = isStory ? 11 : isBanner ? 7 : 10;
-  const heroSize = isStory ? 18 : isBanner ? 9 : 20;
+  const heroSize = isStory ? 14 : isBanner ? 9 : 20;
   const footSize = isStory ? 7 : isBanner ? 5 : 6;
 
   return (
@@ -370,7 +370,7 @@ function PortadaEditorialStory({ fotoUrl, fotoAutorizada }: { fotoUrl: string; f
         locations={[0, 0.30, 0.62, 1]}
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} pointerEvents="none" />
       <View style={{ position: 'absolute', top: 16, left: 10, right: 10, alignItems: 'center' }}>
-        <Text adjustsFontSizeToFit numberOfLines={1} style={{ width: 220, textAlign: 'center', fontFamily: 'Bauhaus93', fontSize: 38, color: '#FF008A', includeFontPadding: false }}>Pasarela</Text>
+        <Text adjustsFontSizeToFit numberOfLines={1} style={{ width: 220, textAlign: 'center', fontFamily: 'Bauhaus93', fontSize: 30, color: '#FF008A', includeFontPadding: false }}>Pasarela</Text>
         <Text style={{ color: '#FFFFFF', fontFamily: 'Montserrat_700Bold', fontSize: 7, letterSpacing: 1.5, marginTop: 2 }}>STUDIO INTERNACIONAL</Text>
       </View>
       <View style={{ position: 'absolute', left: 16, right: 16, bottom: 62 }}>
