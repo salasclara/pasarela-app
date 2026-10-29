@@ -554,7 +554,7 @@ export default function Imagen() {
       <Text style={styles.secLabel}>Vista previa</Text>
 
       <View style={styles.previewContainer}>
-        <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1, pixelRatio: 3 }}>
+        <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1 }}>
           {formatoActivo.id === 'story' && storyEditorial ? <PortadaEditorialStory /> : <TarjetaNoticia
             titular={titular}
             gancho={gancho}
