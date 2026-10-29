@@ -399,6 +399,9 @@ export default function Imagen() {
   const [formatoActivo, setFormatoActivo] = useState(FORMATOS[1]);
   const [storyEditorial, setStoryEditorial] = useState(false);
   const [fotoEditorialAutorizada, setFotoEditorialAutorizada] = useState(false);
+  const [fotoEditorialLocal, setFotoEditorialLocal] = useState('');
+  const [fotosGaleria, setFotosGaleria] = useState<MediaLibrary.Asset[]>([]);
+  const [cargandoGaleria, setCargandoGaleria] = useState(false);
   const [titular, setTitular] = useState('SELECCIONA UNA NOTICIA');
   const [gancho, setGancho] = useState('');
   const [hero, setHero] = useState('EN EL FEED');
@@ -461,6 +464,41 @@ export default function Imagen() {
       cargarNoticia();
     }, [])
   );
+
+  const abrirGaleriaEditorial = async () => {
+    try {
+      setCargandoGaleria(true);
+      const permiso = await MediaLibrary.requestPermissionsAsync();
+      if (permiso.status !== 'granted') {
+        Alert.alert('Permiso requerido', 'Permite acceso a Fotos para seleccionar una imagen editorial.');
+        return;
+      }
+      const resultado = await MediaLibrary.getAssetsAsync({
+        mediaType: 'photo',
+        first: 40,
+        sortBy: [MediaLibrary.SortBy.creationTime],
+      });
+      setFotosGaleria(resultado.assets);
+      if (resultado.assets.length === 0) Alert.alert('Galería vacía', 'Guarda primero una fotografía en Fotos.');
+    } catch {
+      Alert.alert('Error', 'No se pudo abrir la galería de fotografías.');
+    } finally {
+      setCargandoGaleria(false);
+    }
+  };
+
+  const seleccionarFotoEditorial = async (foto: MediaLibrary.Asset) => {
+    try {
+      const detalle = await MediaLibrary.getAssetInfoAsync(foto);
+      const uri = detalle.localUri || foto.uri;
+      if (!uri) throw new Error('No se pudo obtener la imagen');
+      setFotoEditorialLocal(uri);
+      setFotoEditorialAutorizada(false);
+      setFotosGaleria([]);
+    } catch {
+      Alert.alert('Error', 'No se pudo cargar esta fotografía.');
+    }
+  };
 
   const guardarImagen = async () => {
     try {
@@ -551,12 +589,37 @@ export default function Imagen() {
         </TouchableOpacity>
       )}
 
-      {formatoActivo.id === 'story' && storyEditorial && !!imagenUrl && (
-        <TouchableOpacity onPress={() => setFotoEditorialAutorizada(v => !v)} style={{ alignSelf: 'center', marginBottom: 12, padding: 10 }} accessibilityRole="checkbox" accessibilityState={{ checked: fotoEditorialAutorizada }}>
-          <Text style={{ color: '#FFFFFF', fontSize: 12 }}>
-            {fotoEditorialAutorizada ? '☑' : '☐'} Confirmo que tengo derechos para usar esta fotografía
-          </Text>
-        </TouchableOpacity>
+      {formatoActivo.id === 'story' && storyEditorial && (
+        <View style={{ marginBottom: 12, alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={abrirGaleriaEditorial}
+            disabled={cargandoGaleria}
+            style={[styles.formatoChip, { flex: 0, paddingHorizontal: 18, marginBottom: 8 }]}
+            accessibilityRole="button"
+          >
+            <Text style={styles.formatoLabel}>{cargandoGaleria ? 'Abriendo Fotos...' : 'Seleccionar fotografía de mi galería'}</Text>
+          </TouchableOpacity>
+          {fotosGaleria.length > 0 && (
+            <ScrollView horizontal style={{ maxHeight: 88, marginBottom: 10 }}>
+              {fotosGaleria.map(foto => (
+                <TouchableOpacity key={foto.id} onPress={() => seleccionarFotoEditorial(foto)} accessibilityLabel="Seleccionar fotografía">
+                  <Image source={{ uri: foto.uri }} style={{ width: 65, height: 82, marginRight: 7, borderRadius: 4 }} />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          )}
+          {fotoEditorialLocal ? (
+            <TouchableOpacity onPress={() => setFotoEditorialAutorizada(v => !v)} style={{ padding: 10 }} accessibilityRole="checkbox" accessibilityState={{ checked: fotoEditorialAutorizada }}>
+              <Text style={{ color: '#FFFFFF', fontSize: 12 }}>
+                {fotoEditorialAutorizada ? '☑' : '☐'} Confirmo que tengo derechos para usar esta fotografía
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <Text style={{ color: '#F3CEDD', fontSize: 11, textAlign: 'center' }}>
+              Elige una fotografía original o autorizada. No se usará la foto de la noticia.
+            </Text>
+          )}
+        </View>
       )}
 
       {cargandoTitulo && (
@@ -569,7 +632,7 @@ export default function Imagen() {
 
       <View style={styles.previewContainer}>
         <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1 }}>
-          {formatoActivo.id === 'story' && storyEditorial ? <PortadaEditorialStory fotoUrl={imagenUrl} fotoAutorizada={fotoEditorialAutorizada} /> : <TarjetaNoticia
+          {formatoActivo.id === 'story' && storyEditorial ? <PortadaEditorialStory fotoUrl={fotoEditorialLocal} fotoAutorizada={fotoEditorialAutorizada} /> : <TarjetaNoticia
             titular={titular}
             gancho={gancho}
             hero={hero}
