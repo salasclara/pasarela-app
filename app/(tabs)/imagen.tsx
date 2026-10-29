@@ -60,12 +60,12 @@ function TarjetaNoticia({
   const isBanner = formato.id === 'banner';
   const isStory = formato.id === 'story';
 
-  const logoSize = Math.round(h * 0.18);
+  const logoSize = isStory ? 48 : Math.round(h * 0.18);
   const headerHeight = h * 0.23;
   const catSize = isStory ? 9 : 7;
-  const titSize = isStory ? 13 : isBanner ? 7 : 10;
-  const heroSize = isStory ? 34 : isBanner ? 9 : 20;
-  const footSize = isStory ? 8 : isBanner ? 5 : 6;
+  const titSize = isStory ? 11 : isBanner ? 7 : 10;
+  const heroSize = isStory ? 24 : isBanner ? 9 : 20;
+  const footSize = isStory ? 7 : isBanner ? 5 : 6;
 
   return (
     <View style={{ width: w, height: h, backgroundColor: '#000', overflow: 'hidden' }}>
@@ -187,9 +187,9 @@ function TarjetaNoticia({
           <View
             style={{
               position: 'absolute',
-              top: h * 0.36,
+              top: h * (isStory ? 0.39 : 0.36),
               left: w * 0.08,
-              width: w * 0.58,
+              width: w * (isStory ? 0.82 : 0.58),
             }}
           >
             {titular.length > 0 && (
@@ -198,7 +198,7 @@ function TarjetaNoticia({
                   fontSize: titSize,
                   color: '#FFFFFF',
                   fontFamily: 'Montserrat_800ExtraBold',
-                  lineHeight: titSize * 0.95,
+                  lineHeight: titSize * (isStory ? 1.12 : 0.95),
                   letterSpacing: -0.2,
                   textTransform: 'uppercase',
                   marginBottom: 4,
@@ -213,11 +213,11 @@ function TarjetaNoticia({
             {gancho.length > 0 && (
               <Text
                 style={{
-                  fontSize: isStory ? 9 : 7,
+                  fontSize: isStory ? 8 : 7,
                   color: 'rgba(255,255,255,0.80)',
                   fontFamily: 'Montserrat_400Regular',
                   fontStyle: 'italic',
-                  lineHeight: isStory ? 14 : 11,
+                  lineHeight: isStory ? 12 : 11,
                   marginBottom: 5,
                 }}
                 numberOfLines={4}
@@ -231,11 +231,13 @@ function TarjetaNoticia({
                 fontSize: heroSize,
                 color,
                 fontFamily: 'Montserrat_900Black',
-                lineHeight: heroSize * 0.95,
+                lineHeight: heroSize * (isStory ? 1.04 : 0.95),
                 textTransform: 'uppercase',
                 letterSpacing: -0.5,
               }}
               numberOfLines={2}
+              adjustsFontSizeToFit={isStory}
+              minimumFontScale={0.65}
             >
               {hero}
             </Text>
