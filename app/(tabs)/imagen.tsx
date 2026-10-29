@@ -60,12 +60,12 @@ function TarjetaNoticia({
   const isBanner = formato.id === 'banner';
   const isStory = formato.id === 'story';
 
-  const logoSize = Math.round(h * 0.18);
+  const logoSize = isStory ? 30 : Math.round(h * 0.18);
   const headerHeight = h * 0.23;
   const catSize = isStory ? 9 : 7;
-  const titSize = isStory ? 13 : isBanner ? 7 : 10;
-  const heroSize = isStory ? 34 : isBanner ? 9 : 20;
-  const footSize = isStory ? 8 : isBanner ? 5 : 6;
+  const titSize = isStory ? 11 : isBanner ? 7 : 10;
+  const heroSize = isStory ? 14 : isBanner ? 9 : 20;
+  const footSize = isStory ? 7 : isBanner ? 5 : 6;
 
   return (
     <View style={{ width: w, height: h, backgroundColor: '#000', overflow: 'hidden' }}>
@@ -187,9 +187,9 @@ function TarjetaNoticia({
           <View
             style={{
               position: 'absolute',
-              top: h * 0.36,
+              top: h * (isStory ? 0.39 : 0.36),
               left: w * 0.08,
-              width: w * 0.58,
+              width: w * (isStory ? 0.82 : 0.58),
             }}
           >
             {titular.length > 0 && (
@@ -198,7 +198,7 @@ function TarjetaNoticia({
                   fontSize: titSize,
                   color: '#FFFFFF',
                   fontFamily: 'Montserrat_800ExtraBold',
-                  lineHeight: titSize * 0.95,
+                  lineHeight: titSize * (isStory ? 1.12 : 0.95),
                   letterSpacing: -0.2,
                   textTransform: 'uppercase',
                   marginBottom: 4,
@@ -213,11 +213,11 @@ function TarjetaNoticia({
             {gancho.length > 0 && (
               <Text
                 style={{
-                  fontSize: isStory ? 9 : 7,
+                  fontSize: isStory ? 8 : 7,
                   color: 'rgba(255,255,255,0.80)',
                   fontFamily: 'Montserrat_400Regular',
                   fontStyle: 'italic',
-                  lineHeight: isStory ? 14 : 11,
+                  lineHeight: isStory ? 12 : 11,
                   marginBottom: 5,
                 }}
                 numberOfLines={4}
@@ -231,11 +231,13 @@ function TarjetaNoticia({
                 fontSize: heroSize,
                 color,
                 fontFamily: 'Montserrat_900Black',
-                lineHeight: heroSize * 0.95,
+                lineHeight: heroSize * (isStory ? 1.04 : 0.95),
                 textTransform: 'uppercase',
                 letterSpacing: -0.5,
               }}
               numberOfLines={2}
+              adjustsFontSizeToFit={isStory}
+              minimumFontScale={0.65}
             >
               {hero}
             </Text>
@@ -351,6 +353,40 @@ function TarjetaNoticia({
   );
 }
 
+
+function PortadaEditorialStory({ fotoUrl, fotoAutorizada }: { fotoUrl: string; fotoAutorizada: boolean }) {
+  const mostrarFoto = fotoAutorizada && !!fotoUrl;
+  return (
+    <View style={{ width: 240, height: 426, backgroundColor: '#09070A', overflow: 'hidden' }}>
+      {mostrarFoto ? (
+        <Image source={{ uri: fotoUrl }} resizeMode="cover" style={{ position: 'absolute', width: 240, height: 426 }} />
+      ) : (
+        <View style={{ position: 'absolute', top: 100, left: 16, right: 16, height: 155, borderWidth: 1, borderColor: '#FF008A', alignItems: 'center', justifyContent: 'center', padding: 12 }}>
+          <Text style={{ color: '#FFFFFF', textAlign: 'center', fontFamily: 'Montserrat_700Bold', fontSize: 12 }}>FOTOGRAFÍA EDITORIAL</Text>
+          <Text style={{ color: '#F3CEDD', textAlign: 'center', fontSize: 9, marginTop: 7 }}>Selecciona una imagen con derechos de uso autorizados</Text>
+        </View>
+      )}
+      <LinearGradient colors={['rgba(0,0,0,0.78)', 'rgba(0,0,0,0.04)', 'rgba(0,0,0,0.90)', '#080609']}
+        locations={[0, 0.30, 0.62, 1]}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} pointerEvents="none" />
+      <View style={{ position: 'absolute', top: 16, left: 10, right: 10, alignItems: 'center' }}>
+        <Text adjustsFontSizeToFit numberOfLines={1} style={{ width: 220, textAlign: 'center', fontFamily: 'Bauhaus93', fontSize: 30, color: '#FF008A', includeFontPadding: false }}>Pasarela</Text>
+        <Text style={{ color: '#FFFFFF', fontFamily: 'Montserrat_700Bold', fontSize: 7, letterSpacing: 1.5, marginTop: 2 }}>STUDIO INTERNACIONAL</Text>
+      </View>
+      <View style={{ position: 'absolute', left: 16, right: 16, bottom: 62 }}>
+        <Text style={{ color: '#FF008A', fontFamily: 'Montserrat_700Bold', fontSize: 9, letterSpacing: 2, marginBottom: 9 }}>TENDENCIAS</Text>
+        <Text adjustsFontSizeToFit numberOfLines={4} style={{ color: '#FFFFFF', fontFamily: 'Montserrat_900Black', fontSize: 23, lineHeight: 27 }}>
+          ROJO ESCARLATA: EL COLOR QUE CONQUISTA EL OTOÑO
+        </Text>
+        <Text style={{ color: '#FFFFFF', fontFamily: 'Montserrat_400Regular', fontSize: 10, marginTop: 10 }}>Una declaración de estilo</Text>
+      </View>
+      <View style={{ position: 'absolute', bottom: 19, left: 16, right: 16, borderTopWidth: 1, borderTopColor: '#FF008A', paddingTop: 7 }}>
+        <Text style={{ color: '#FFFFFF', fontFamily: 'Montserrat_400Regular', fontSize: 8 }}>pasarelastudiointer.com</Text>
+      </View>
+    </View>
+  );
+}
+
 export default function Imagen() {
   const [fontsLoaded] = useFonts({
     Bauhaus93: require('../../assets/fonts/Bauhaus93.ttf'),
@@ -361,6 +397,11 @@ export default function Imagen() {
   });
 
   const [formatoActivo, setFormatoActivo] = useState(FORMATOS[1]);
+  const [storyEditorial, setStoryEditorial] = useState(false);
+  const [fotoEditorialAutorizada, setFotoEditorialAutorizada] = useState(false);
+  const [fotoEditorialLocal, setFotoEditorialLocal] = useState('');
+  const [fotosGaleria, setFotosGaleria] = useState<MediaLibrary.Asset[]>([]);
+  const [cargandoGaleria, setCargandoGaleria] = useState(false);
   const [titular, setTitular] = useState('SELECCIONA UNA NOTICIA');
   const [gancho, setGancho] = useState('');
   const [hero, setHero] = useState('EN EL FEED');
@@ -381,6 +422,7 @@ export default function Imagen() {
 
             setScope(noticia.scope || 'moda');
             setImagenUrl(noticia.imagen || '');
+            setFotoEditorialAutorizada(false);
             setCargandoTitulo(true);
 
             try {
@@ -422,6 +464,41 @@ export default function Imagen() {
       cargarNoticia();
     }, [])
   );
+
+  const abrirGaleriaEditorial = async () => {
+    try {
+      setCargandoGaleria(true);
+      const permiso = await MediaLibrary.requestPermissionsAsync();
+      if (permiso.status !== 'granted') {
+        Alert.alert('Permiso requerido', 'Permite acceso a Fotos para seleccionar una imagen editorial.');
+        return;
+      }
+      const resultado = await MediaLibrary.getAssetsAsync({
+        mediaType: 'photo',
+        first: 40,
+        sortBy: [MediaLibrary.SortBy.creationTime],
+      });
+      setFotosGaleria(resultado.assets);
+      if (resultado.assets.length === 0) Alert.alert('Galería vacía', 'Guarda primero una fotografía en Fotos.');
+    } catch {
+      Alert.alert('Error', 'No se pudo abrir la galería de fotografías.');
+    } finally {
+      setCargandoGaleria(false);
+    }
+  };
+
+  const seleccionarFotoEditorial = async (foto: MediaLibrary.Asset) => {
+    try {
+      const detalle = await MediaLibrary.getAssetInfoAsync(foto);
+      const uri = detalle.localUri || foto.uri;
+      if (!uri) throw new Error('No se pudo obtener la imagen');
+      setFotoEditorialLocal(uri);
+      setFotoEditorialAutorizada(false);
+      setFotosGaleria([]);
+    } catch {
+      Alert.alert('Error', 'No se pudo cargar esta fotografía.');
+    }
+  };
 
   const guardarImagen = async () => {
     try {
@@ -499,6 +576,52 @@ export default function Imagen() {
         ))}
       </View>
 
+      {formatoActivo.id === 'story' && (
+        <TouchableOpacity
+          style={[styles.formatoChip, storyEditorial && styles.formatoChipActivo, { alignSelf: 'center', marginBottom: 12, paddingHorizontal: 18 }]}
+          onPress={() => setStoryEditorial(v => !v)}
+          accessibilityRole="button"
+          accessibilityLabel="Alternar vista de Story editorial de prueba"
+        >
+          <Text style={[styles.formatoLabel, storyEditorial && styles.formatoLabelActivo]}>
+            {storyEditorial ? '✓ Story editorial · Rojo escarlata' : 'Probar Story editorial · Rojo escarlata'}
+          </Text>
+        </TouchableOpacity>
+      )}
+
+      {formatoActivo.id === 'story' && storyEditorial && (
+        <View style={{ marginBottom: 12, alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={abrirGaleriaEditorial}
+            disabled={cargandoGaleria}
+            style={[styles.formatoChip, { flex: 0, paddingHorizontal: 18, marginBottom: 8 }]}
+            accessibilityRole="button"
+          >
+            <Text style={styles.formatoLabel}>{cargandoGaleria ? 'Abriendo Fotos...' : 'Seleccionar fotografía de mi galería'}</Text>
+          </TouchableOpacity>
+          {fotosGaleria.length > 0 && (
+            <ScrollView horizontal style={{ maxHeight: 88, marginBottom: 10 }}>
+              {fotosGaleria.map(foto => (
+                <TouchableOpacity key={foto.id} onPress={() => seleccionarFotoEditorial(foto)} accessibilityLabel="Seleccionar fotografía">
+                  <Image source={{ uri: foto.uri }} style={{ width: 65, height: 82, marginRight: 7, borderRadius: 4 }} />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          )}
+          {fotoEditorialLocal ? (
+            <TouchableOpacity onPress={() => setFotoEditorialAutorizada(v => !v)} style={{ padding: 10 }} accessibilityRole="checkbox" accessibilityState={{ checked: fotoEditorialAutorizada }}>
+              <Text style={{ color: '#FFFFFF', fontSize: 12 }}>
+                {fotoEditorialAutorizada ? '☑' : '☐'} Confirmo que tengo derechos para usar esta fotografía
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <Text style={{ color: '#F3CEDD', fontSize: 11, textAlign: 'center' }}>
+              Elige una fotografía original o autorizada. No se usará la foto de la noticia.
+            </Text>
+          )}
+        </View>
+      )}
+
       {cargandoTitulo && (
         <Text style={{ color: '#FF1493', fontSize: 10, textAlign: 'center', marginBottom: 8 }}>
           ✦ Generando titular editorial...
@@ -508,8 +631,8 @@ export default function Imagen() {
       <Text style={styles.secLabel}>Vista previa</Text>
 
       <View style={styles.previewContainer}>
-        <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1, pixelRatio: 3 }}>
-          <TarjetaNoticia
+        <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1 }}>
+          {formatoActivo.id === 'story' && storyEditorial ? <PortadaEditorialStory fotoUrl={fotoEditorialLocal} fotoAutorizada={fotoEditorialAutorizada} /> : <TarjetaNoticia
             titular={titular}
             gancho={gancho}
             hero={hero}
@@ -517,7 +640,7 @@ export default function Imagen() {
             imagenUrl={imagenUrl}
             formato={formatoActivo}
             pdpNumero={pdpNumero}
-          />
+          />}
         </ViewShot>
       </View>
 

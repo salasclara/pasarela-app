@@ -45,7 +45,7 @@ const STEPS = [
   'Listo.',
 ];
 
-type View = 'form' | 'progress' | 'result';
+type MaterializarVista = 'form' | 'progress' | 'result';
 
 interface Editorial {
   categoria: string;
@@ -59,7 +59,7 @@ const { width } = Dimensions.get('window');
 const CARD_WIDTH = Math.min(width - 32, 420);
 
 export default function Materializar() {
-  const [view, setView]           = useState<View>('form');
+  const [view, setView]           = useState<MaterializarVista>('form');
   const [idea, setIdea]           = useState('');
   const [currentStep, setStep]    = useState(-1);
   const [editorial, setEditorial] = useState<Editorial | null>(null);
