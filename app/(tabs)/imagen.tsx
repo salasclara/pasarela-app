@@ -351,6 +351,38 @@ function TarjetaNoticia({
   );
 }
 
+
+function PortadaEditorialStory() {
+  return (
+    <View style={{ width: 240, height: 426, backgroundColor: '#0B070B', overflow: 'hidden' }}>
+      <LinearGradient colors={['#19080D', '#A30F34', '#1C0710']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+        style={{ position: 'absolute', top: 82, left: 0, width: 240, height: 265 }} />
+      <View style={{ position: 'absolute', top: 105, left: 145, width: 66, height: 235, backgroundColor: '#D52249', opacity: 0.65, transform: [{ rotate: '-18deg' }] }} />
+      <View style={{ position: 'absolute', top: 105, left: 190, width: 26, height: 235, backgroundColor: '#F96A85', opacity: 0.55, transform: [{ rotate: '-18deg' }] }} />
+      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 86, backgroundColor: '#0B070B', alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontFamily: 'Bauhaus93', fontSize: 49, lineHeight: 57, color: '#FF008A', includeFontPadding: false }}>Pasarela</Text>
+        <View style={{ height: 1, width: 200, backgroundColor: '#FF008A' }} />
+        <Text style={{ fontFamily: 'Montserrat_700Bold', color: '#FFFFFF', fontSize: 7, letterSpacing: 2, marginTop: 4 }}>STUDIO INTERNACIONAL</Text>
+      </View>
+      <Text style={{ position: 'absolute', top: 100, left: 16, fontFamily: 'Montserrat_700Bold', fontSize: 9, letterSpacing: 3, color: '#FFFFFF' }}>TENDENCIAS</Text>
+      <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.94)', '#09070A']}
+        style={{ position: 'absolute', top: 226, left: 0, right: 0, bottom: 0 }} />
+      <View style={{ position: 'absolute', top: 260, left: 16, right: 16 }}>
+        <Text style={{ color: '#FFFFFF', fontFamily: 'Montserrat_900Black', fontSize: 23, lineHeight: 26 }} numberOfLines={4}>
+          ROJO ESCARLATA: EL COLOR QUE CONQUISTA EL OTOÑO
+        </Text>
+        <Text style={{ color: '#F3CEDD', fontFamily: 'Montserrat_400Regular', fontSize: 10, marginTop: 9 }}>
+          Una declaración de estilo
+        </Text>
+      </View>
+      <View style={{ position: 'absolute', bottom: 20, left: 16, right: 16, borderTopWidth: 1, borderTopColor: '#FF008A', paddingTop: 8 }}>
+        <Text style={{ color: '#FF008A', fontFamily: 'Montserrat_800ExtraBold', fontSize: 10 }}>SCARLET POWER</Text>
+        <Text style={{ color: '#FFFFFF', fontFamily: 'Montserrat_400Regular', fontSize: 8, marginTop: 3 }}>pasarelastudiointer.com</Text>
+      </View>
+    </View>
+  );
+}
+
 export default function Imagen() {
   const [fontsLoaded] = useFonts({
     Bauhaus93: require('../../assets/fonts/Bauhaus93.ttf'),
@@ -361,6 +393,7 @@ export default function Imagen() {
   });
 
   const [formatoActivo, setFormatoActivo] = useState(FORMATOS[1]);
+  const [storyEditorial, setStoryEditorial] = useState(false);
   const [titular, setTitular] = useState('SELECCIONA UNA NOTICIA');
   const [gancho, setGancho] = useState('');
   const [hero, setHero] = useState('EN EL FEED');
@@ -499,6 +532,19 @@ export default function Imagen() {
         ))}
       </View>
 
+      {formatoActivo.id === 'story' && (
+        <TouchableOpacity
+          style={[styles.formatoChip, storyEditorial && styles.formatoChipActivo, { alignSelf: 'center', marginBottom: 12, paddingHorizontal: 18 }]}
+          onPress={() => setStoryEditorial(v => !v)}
+          accessibilityRole="button"
+          accessibilityLabel="Alternar vista de Story editorial de prueba"
+        >
+          <Text style={[styles.formatoLabel, storyEditorial && styles.formatoLabelActivo]}>
+            {storyEditorial ? '✓ Story editorial · Rojo escarlata' : 'Probar Story editorial · Rojo escarlata'}
+          </Text>
+        </TouchableOpacity>
+      )}
+
       {cargandoTitulo && (
         <Text style={{ color: '#FF1493', fontSize: 10, textAlign: 'center', marginBottom: 8 }}>
           ✦ Generando titular editorial...
@@ -509,7 +555,7 @@ export default function Imagen() {
 
       <View style={styles.previewContainer}>
         <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1, pixelRatio: 3 }}>
-          <TarjetaNoticia
+          {formatoActivo.id === 'story' && storyEditorial ? <PortadaEditorialStory /> : <TarjetaNoticia
             titular={titular}
             gancho={gancho}
             hero={hero}
@@ -517,7 +563,7 @@ export default function Imagen() {
             imagenUrl={imagenUrl}
             formato={formatoActivo}
             pdpNumero={pdpNumero}
-          />
+          />}
         </ViewShot>
       </View>
 
