@@ -352,32 +352,34 @@ function TarjetaNoticia({
 }
 
 
-function PortadaEditorialStory() {
+function PortadaEditorialStory({ fotoUrl, fotoAutorizada }: { fotoUrl: string; fotoAutorizada: boolean }) {
+  const mostrarFoto = fotoAutorizada && !!fotoUrl;
   return (
-    <View style={{ width: 240, height: 426, backgroundColor: '#0B070B', overflow: 'hidden' }}>
-      <LinearGradient colors={['#19080D', '#A30F34', '#1C0710']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
-        style={{ position: 'absolute', top: 82, left: 0, width: 240, height: 265 }} />
-      <View style={{ position: 'absolute', top: 105, left: 145, width: 66, height: 235, backgroundColor: '#D52249', opacity: 0.65, transform: [{ rotate: '-18deg' }] }} />
-      <View style={{ position: 'absolute', top: 105, left: 190, width: 26, height: 235, backgroundColor: '#F96A85', opacity: 0.55, transform: [{ rotate: '-18deg' }] }} />
-      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 86, backgroundColor: '#0B070B', alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontFamily: 'Bauhaus93', fontSize: 49, lineHeight: 57, color: '#FF008A', includeFontPadding: false }}>Pasarela</Text>
-        <View style={{ height: 1, width: 200, backgroundColor: '#FF008A' }} />
-        <Text style={{ fontFamily: 'Montserrat_700Bold', color: '#FFFFFF', fontSize: 7, letterSpacing: 2, marginTop: 4 }}>STUDIO INTERNACIONAL</Text>
+    <View style={{ width: 240, height: 426, backgroundColor: '#09070A', overflow: 'hidden' }}>
+      {mostrarFoto ? (
+        <Image source={{ uri: fotoUrl }} resizeMode="cover" style={{ position: 'absolute', width: 240, height: 426 }} />
+      ) : (
+        <View style={{ position: 'absolute', top: 100, left: 16, right: 16, height: 155, borderWidth: 1, borderColor: '#FF008A', alignItems: 'center', justifyContent: 'center', padding: 12 }}>
+          <Text style={{ color: '#FFFFFF', textAlign: 'center', fontFamily: 'Montserrat_700Bold', fontSize: 12 }}>FOTOGRAFÍA EDITORIAL</Text>
+          <Text style={{ color: '#F3CEDD', textAlign: 'center', fontSize: 9, marginTop: 7 }}>Selecciona una imagen con derechos de uso autorizados</Text>
+        </View>
+      )}
+      <LinearGradient colors={['rgba(0,0,0,0.78)', 'rgba(0,0,0,0.04)', 'rgba(0,0,0,0.90)', '#080609']}
+        locations={[0, 0.30, 0.62, 1]}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} pointerEvents="none" />
+      <View style={{ position: 'absolute', top: 16, left: 10, right: 10, alignItems: 'center' }}>
+        <Text adjustsFontSizeToFit numberOfLines={1} style={{ width: 220, textAlign: 'center', fontFamily: 'Bauhaus93', fontSize: 47, color: '#FF008A', includeFontPadding: false }}>Pasarela</Text>
+        <Text style={{ color: '#FFFFFF', fontFamily: 'Montserrat_700Bold', fontSize: 7, letterSpacing: 1.5, marginTop: 2 }}>STUDIO INTERNACIONAL</Text>
       </View>
-      <Text style={{ position: 'absolute', top: 100, left: 16, fontFamily: 'Montserrat_700Bold', fontSize: 9, letterSpacing: 3, color: '#FFFFFF' }}>TENDENCIAS</Text>
-      <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.94)', '#09070A']}
-        style={{ position: 'absolute', top: 226, left: 0, right: 0, bottom: 0 }} />
-      <View style={{ position: 'absolute', top: 260, left: 16, right: 16 }}>
-        <Text style={{ color: '#FFFFFF', fontFamily: 'Montserrat_900Black', fontSize: 23, lineHeight: 26 }} numberOfLines={4}>
+      <View style={{ position: 'absolute', left: 16, right: 16, bottom: 62 }}>
+        <Text style={{ color: '#FF008A', fontFamily: 'Montserrat_700Bold', fontSize: 9, letterSpacing: 2, marginBottom: 9 }}>TENDENCIAS</Text>
+        <Text adjustsFontSizeToFit numberOfLines={4} style={{ color: '#FFFFFF', fontFamily: 'Montserrat_900Black', fontSize: 23, lineHeight: 27 }}>
           ROJO ESCARLATA: EL COLOR QUE CONQUISTA EL OTOÑO
         </Text>
-        <Text style={{ color: '#F3CEDD', fontFamily: 'Montserrat_400Regular', fontSize: 10, marginTop: 9 }}>
-          Una declaración de estilo
-        </Text>
+        <Text style={{ color: '#FFFFFF', fontFamily: 'Montserrat_400Regular', fontSize: 10, marginTop: 10 }}>Una declaración de estilo</Text>
       </View>
-      <View style={{ position: 'absolute', bottom: 20, left: 16, right: 16, borderTopWidth: 1, borderTopColor: '#FF008A', paddingTop: 8 }}>
-        <Text style={{ color: '#FF008A', fontFamily: 'Montserrat_800ExtraBold', fontSize: 10 }}>SCARLET POWER</Text>
-        <Text style={{ color: '#FFFFFF', fontFamily: 'Montserrat_400Regular', fontSize: 8, marginTop: 3 }}>pasarelastudiointer.com</Text>
+      <View style={{ position: 'absolute', bottom: 19, left: 16, right: 16, borderTopWidth: 1, borderTopColor: '#FF008A', paddingTop: 7 }}>
+        <Text style={{ color: '#FFFFFF', fontFamily: 'Montserrat_400Regular', fontSize: 8 }}>pasarelastudiointer.com</Text>
       </View>
     </View>
   );
@@ -394,6 +396,7 @@ export default function Imagen() {
 
   const [formatoActivo, setFormatoActivo] = useState(FORMATOS[1]);
   const [storyEditorial, setStoryEditorial] = useState(false);
+  const [fotoEditorialAutorizada, setFotoEditorialAutorizada] = useState(false);
   const [titular, setTitular] = useState('SELECCIONA UNA NOTICIA');
   const [gancho, setGancho] = useState('');
   const [hero, setHero] = useState('EN EL FEED');
@@ -414,6 +417,7 @@ export default function Imagen() {
 
             setScope(noticia.scope || 'moda');
             setImagenUrl(noticia.imagen || '');
+            setFotoEditorialAutorizada(false);
             setCargandoTitulo(true);
 
             try {
@@ -545,6 +549,14 @@ export default function Imagen() {
         </TouchableOpacity>
       )}
 
+      {formatoActivo.id === 'story' && storyEditorial && !!imagenUrl && (
+        <TouchableOpacity onPress={() => setFotoEditorialAutorizada(v => !v)} style={{ alignSelf: 'center', marginBottom: 12, padding: 10 }} accessibilityRole="checkbox" accessibilityState={{ checked: fotoEditorialAutorizada }}>
+          <Text style={{ color: '#FFFFFF', fontSize: 12 }}>
+            {fotoEditorialAutorizada ? '☑' : '☐'} Confirmo que tengo derechos para usar esta fotografía
+          </Text>
+        </TouchableOpacity>
+      )}
+
       {cargandoTitulo && (
         <Text style={{ color: '#FF1493', fontSize: 10, textAlign: 'center', marginBottom: 8 }}>
           ✦ Generando titular editorial...
@@ -555,7 +567,7 @@ export default function Imagen() {
 
       <View style={styles.previewContainer}>
         <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1 }}>
-          {formatoActivo.id === 'story' && storyEditorial ? <PortadaEditorialStory /> : <TarjetaNoticia
+          {formatoActivo.id === 'story' && storyEditorial ? <PortadaEditorialStory fotoUrl={imagenUrl} fotoAutorizada={fotoEditorialAutorizada} /> : <TarjetaNoticia
             titular={titular}
             gancho={gancho}
             hero={hero}
