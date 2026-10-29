@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'app/(tabs)/imagen.tsx'
+      - 'app/(tabs)/materializar.tsx'
       - 'package.json'
       - 'package-lock.json'
       - '.github/workflows/story-preview-check.yml'
